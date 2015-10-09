@@ -1,0 +1,6 @@
+/Users/norihirosunada/Documents/BluetoothChat/Application/build/intermediates/classes/debug
+/Users/norihirosunada/Documents/BluetoothChat/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-2bc89bce3f217b3b264b55a6506c6fe9b6986400.jar
+/Users/norihirosunada/Documents/BluetoothChat/Application/build/intermediates/pre-dexed/debug/classes-06758581d48be506afc0fbf530afde50f3ba95af.jar
+/Users/norihirosunada/Documents/BluetoothChat/Application/build/intermediates/pre-dexed/debug/classes-5201018606f0e6ff6f1f8cd3de7ae20a9e506e71.jar
+/Users/norihirosunada/Documents/BluetoothChat/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-b772fa5a8fd0c8f68f9693742149b8ce79d435c7.jar
+/Users/norihirosunada/Documents/BluetoothChat/Application/build/intermediates/pre-dexed/debug/classes-6c1df25eea5cff45ecd3d83437bd09efdaf7f6b4.jar
