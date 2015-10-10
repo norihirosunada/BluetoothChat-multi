@@ -279,7 +279,6 @@ containing a value of this type.
         public static final int button_scan=0x7f090016;
         public static final int button_send=0x7f09001e;
         public static final int button_start_chat=0x7f090017;
-        public static final int camera=0x7f090023;
         public static final int center=0x7f090005;
         public static final int center_horizontal=0x7f090006;
         public static final int center_vertical=0x7f090007;
@@ -291,13 +290,10 @@ containing a value of this type.
         public static final int fill=0x7f09000b;
         public static final int fill_horizontal=0x7f09000c;
         public static final int fill_vertical=0x7f09000d;
-        public static final int help=0x7f090022;
         public static final int horizontal=0x7f090000;
         public static final int in=0x7f09001c;
         public static final int insecure_connect_scan=0x7f090020;
         public static final int left=0x7f09000e;
-        public static final int log_fragment=0x7f09001b;
-        public static final int multi_connect=0x7f090024;
         public static final int new_devices=0x7f090015;
         public static final int paired_devices=0x7f090013;
         public static final int right=0x7f09000f;
