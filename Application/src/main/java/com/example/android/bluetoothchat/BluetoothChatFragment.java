@@ -18,11 +18,8 @@ package com.example.android.bluetoothchat;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,13 +42,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
-
-    private static final String TAG = "BluetoothChatFragment";
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -59,7 +56,6 @@ public class BluetoothChatFragment extends Fragment {
     private static final int REQUEST_ENABLE_BT = 3;
     private static final int REQUEST_CONNECT_MULTI_DEVICE = 4;
 
-    private static final boolean modemulti = false;
 
     // Layout Views
     private ListView mConversationView;
@@ -377,13 +373,16 @@ public class BluetoothChatFragment extends Fragment {
      * @param secure Socket Security type - Secure (true) , Insecure (false)
      */
     private void connectDevice(Intent data, boolean secure) {
-        // Get the device MAC address
-        String address = data.getExtras()
-                .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+        // Get the device MAC addresses
+        ArrayList<String> addressList = data.getStringArrayListExtra("EXTRA_DEVICE_ADDRESS");
         // Get the BluetoothDevice object
-        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-        // Attempt to connect to the device
-        mChatService.connect(device, secure);
+        for(String address : addressList) {
+            BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+
+            // Attempt to connect to the device
+//            mChatService.connect(device, secure);
+        }
+
     }
 
     @Override
@@ -409,19 +408,6 @@ public class BluetoothChatFragment extends Fragment {
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
                 ensureDiscoverable();
-                return true;
-            }
-            case R.id.multi_connect:{
-                //複数台のデバイスに対し順番に接続する　本機がホストとなる
-                Intent serverIntent = new Intent(getActivity(),DeviceListActivity.class);
-                serverIntent.putExtra("mode",modemulti);
-                startActivityForResult(serverIntent,REQUEST_CONNECT_MULTI_DEVICE);
-                return true;
-            }
-            case R.id.camera:{
-                //カメラを起動
-                Intent intent = new Intent(getActivity(),camera.class);
-                startActivity(intent);
                 return true;
             }
         }

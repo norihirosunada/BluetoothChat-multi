@@ -61,6 +61,12 @@
         android:id="@+id/button_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_connect"
+        android:text="@string/button_scan"
         />
+
+    <Button
+        android:id="@+id/button_start_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_start_chat" />
 </LinearLayout>

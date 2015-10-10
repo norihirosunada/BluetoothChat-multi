@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -31,7 +33,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -57,6 +61,8 @@ public class DeviceListActivity extends Activity {
      */
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
 
+    ListView pairedListView;
+
 
 
     @Override
@@ -79,6 +85,15 @@ public class DeviceListActivity extends Activity {
             }
         });
 
+        //チャットを実行するためのボタンの初期化
+        Button startchatButton = (Button) findViewById(R.id.button_start_chat);
+        startchatButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                connect();
+            }
+        });
+
+
 
         // array adaptersの初期化.
         // 一つは接続履歴のあるデバイス、もうひとつは新規のデバイス
@@ -87,8 +102,9 @@ public class DeviceListActivity extends Activity {
         mNewDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
 
         // ペアリング済みのデバイスのListViewのセット
-        ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
+        pairedListView = (ListView) findViewById(R.id.paired_devices);
         pairedListView.setAdapter(pairedDevicesArrayAdapter);
+        pairedListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         // 新規に見つかったデバイスのListViewのセット
         ListView newDevicesListView = (ListView) findViewById(R.id.new_devices);
@@ -161,20 +177,20 @@ public class DeviceListActivity extends Activity {
     private AdapterView.OnItemClickListener mDeviceClickListener
             = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
-            // 接続するので検出を止める
-            mBtAdapter.cancelDiscovery();
-
-            // デバイスのMAC addressを取得する, つまりはViewの中の最後の17のchar
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
-
-            // Intentを作りMAC addressを渡す
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
-
-            // resultをセットしこのアクティビティを終了する
-            setResult(Activity.RESULT_OK, intent);
-            finish();
+//            // 接続するので検出を止める
+//            mBtAdapter.cancelDiscovery();
+//
+//            // デバイスのMAC addressを取得する, つまりはViewの中の最後の17のchar
+//            String info = ((TextView) v).getText().toString();
+//            String address = info.substring(info.length() - 17);
+//
+//            // Intentを作りMAC addressを渡す
+//            Intent intent = new Intent();
+//            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+//
+//            // resultをセットしこのアクティビティを終了する
+//            setResult(Activity.RESULT_OK, intent);
+//            finish();
         }
     };
 
@@ -206,5 +222,40 @@ public class DeviceListActivity extends Activity {
             }
         }
     };
+
+    private void connect(){
+        // 接続するので検出を止める
+        mBtAdapter.cancelDiscovery();
+
+        // 複数のデバイスのMAC addressを取得する, つまりはViewの中の最後の17のchar　× 台数
+//        ArrayList<String> address = new ArrayList<>();
+        SparseBooleanArray checkeditempositions = pairedListView.getCheckedItemPositions();
+        String[] address = new String[pairedListView.getCheckedItemCount()];
+
+        for(int i=0; i<pairedListView.getCount();i++){
+            if(checkeditempositions.get(i) == true) {
+                //マッピングされている(選択されている)項目だった場合は文字列に連結する
+                int key = checkeditempositions.keyAt(i);
+                String info = pairedListView.getItemAtPosition(key).toString();
+//                address.add(info.substring(info.length() - 17));
+                address[i] = info.substring(info.length() - 17);
+            }
+        }
+
+//        for(int i=0; i<address.size();i++)
+//        Toast.makeText(this, i +"台目"+ address.get(i),Toast.LENGTH_SHORT).show();
+
+        for(int i=0; i < address.length; i++)
+            Toast.makeText(this,i + "台目" + address[i],Toast.LENGTH_SHORT).show();
+
+        // Intentを作りMAC addressを渡す
+//        Intent intent = new Intent();
+//        intent.putStringArrayListExtra(EXTRA_DEVICE_ADDRESS, address);
+
+
+        // resultをセットしこのアクティビティを終了する
+//        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
 
 }
